@@ -1,1 +1,212 @@
 
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ኢትዮ-ስማርት ስቶር | ዋና መተግበሪያ</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; color: #222; }
+        .navbar { background: #006633; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h2 { margin: 0; font-size: 18px; }
+        .tabs { display: flex; background: #004d26; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; color: #ccc; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .tab-btn.active { color: white; border-bottom: 3px solid #f0ad4e; background: rgba(255,255,255,0.1); }
+        .container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .hidden { display: none; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 15px; }
+        button.action-btn { background: #006633; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; }
+        button.print-btn { background: #0275d8; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        .summary-box { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stat { flex: 1; background: #e6f4ea; padding: 12px; border-radius: 6px; text-align: center; }
+        .stat h3 { margin: 0; color: #006633; font-size: 18px; }
+        .stat p { margin: 5px 0 0; font-size: 12px; }
+        @media print {
+            .navbar, .tabs, .no-print { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>ኢትዮ-ስማርት ስቶር (Offline)</h2>
+    <a href="index.html" style="color: #f0ad4e; text-decoration: none; font-size: 14px;">ወደ መግቢያ</a>
+</div>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('business')">የንግድ ስራ (POS/ዱቤ)</button>
+    <button class="tab-btn" onclick="switchTab('gov')">የመንግስት ሞዴል (19/22)</button>
+</div>
+
+<div class="container">
+    <!-- የንግድ ክፍል (Business Mode) -->
+    <div id="business-section">
+        <div class="summary-box">
+            <div class="stat">
+                <h3 id="total-sales">0 ብር</h3>
+                <p>ጠቅላላ ሽያጭ (ጥሬ)</p>
+            </div>
+            <div class="stat" style="background: #fff3cd;">
+                <h3 id="total-credit" style="color: #856404;">0 ብር</h3>
+                <p>ያልተከፈለ ዱቤ</p>
+            </div>
+        </div>
+
+        <div class="card no-print">
+            <h3>አዲስ ሽያጭ / ዱቤ መመዝገቢያ</h3>
+            <input type="text" id="item-name" placeholder="የእቃው ስም (ለምሳሌ፡ ስኳር 5 ኪሎ)">
+            <input type="number" id="item-price" placeholder="ጠቅላላ ዋጋ (በብር)">
+            <select id="payment-type">
+                <option value="cash">በጥሬ ገንዘብ (Cash)</option>
+                <option value="credit">በዱቤ (Credit)</option>
+            </select>
+            <input type="text" id="customer-name" placeholder="የደንበኛ ስም (በዱቤ ከሆነ የግድ ይሞላ)">
+            <button class="action-btn" onclick="addSale()">መዝግብ (Save)</button>
+        </div>
+
+        <div class="card">
+            <h3>የሽያጭ እና የዱቤ ዝርዝር</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>እቃ</th>
+                        <th>ዋጋ</th>
+                        <th>ሁኔታ</th>
+                        <th>ደንበኛ</th>
+                    </tr>
+                </thead>
+                <tbody id="sales-table"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- የመንግስት ክፍል (Government Mode) -->
+    <div id="gov-section" class="hidden">
+        <div class="card no-print">
+            <h3>የመንግስት ንብረት ገቢና ወጪ (ሞዴል 19 / 22)</h3>
+            <select id="model-type">
+                <option value="ሞዴል 19 (ንብረት ገቢ)">ሞዴል 19 (ንብረት ገቢ ደረሰኝ)</option>
+                <option value="ሞዴል 22 (ንብረት ወጪ)">ሞዴል 22 (ንብረት ወጪ ደረሰኝ)</option>
+            </select>
+            <input type="text" id="office-name" placeholder="የመስሪያ ቤቱ ስም (ለምሳሌ፡ ካማሺ ዞን ትምህርት ጽ/ቤት)">
+            <input type="text" id="gov-item" placeholder="የንብረቱ አይነት እና መለያ">
+            <input type="number" id="gov-qty" placeholder="ብዛት (Quantity)">
+            <input type="text" id="person-name" placeholder="አስረካቢ / ተረካቢ ባለሙያ ስም">
+            <button class="action-btn" onclick="addGovRecord()">ሞዴሉን አዘጋጅ</button>
+        </div>
+
+        <div class="card" id="printable-model">
+            <h3 style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">የኢትዮጵያ ፌዴራላዊ ዴሞክራሲያዊ ሪፐብሊክ<br>የንብረት ገቢ እና ወጪ መዝገብ</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ሞዴል</th>
+                        <th>መስሪያ ቤት</th>
+                        <th>ንብረት</th>
+                        <th>ብዛት</th>
+                        <th>ባለሙያ</th>
+                    </tr>
+                </thead>
+                <tbody id="gov-table"></tbody>
+            </table>
+            <button class="action-btn print-btn no-print" onclick="window.print()">ደረሰኙን አትም (Print Model)</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let sales = JSON.parse(localStorage.getItem('ethio_sales')) || [];
+    let govRecords = JSON.parse(localStorage.getItem('ethio_gov')) || [];
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if (tab === 'business') {
+            document.getElementById('business-section').classList.remove('hidden');
+            document.getElementById('gov-section').classList.add('hidden');
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        } else {
+            document.getElementById('business-section').classList.add('hidden');
+            document.getElementById('gov-section').classList.remove('hidden');
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        }
+    }
+
+    function addSale() {
+        const item = document.getElementById('item-name').value;
+        const price = parseFloat(document.getElementById('item-price').value);
+        const type = document.getElementById('payment-type').value;
+        const customer = document.getElementById('customer-name').value || '-';
+
+        if (!item || !price) return alert('እባክዎ የእቃውን ስም እና ዋጋ ያስገቡ!');
+        if (type === 'credit' && customer === '-') return alert('በዱቤ ከሆነ የደንበኛውን ስም ያስገቡ!');
+
+        sales.unshift({ item, price, type, customer });
+        localStorage.setItem('ethio_sales', JSON.stringify(sales));
+        renderSales();
+        document.getElementById('item-name').value = '';
+        document.getElementById('item-price').value = '';
+        document.getElementById('customer-name').value = '';
+    }
+
+    function renderSales() {
+        const tbody = document.getElementById('sales-table');
+        tbody.innerHTML = '';
+        let cashTotal = 0, creditTotal = 0;
+
+        sales.forEach(s => {
+            if (s.type === 'cash') cashTotal += s.price;
+            else creditTotal += s.price;
+
+            tbody.innerHTML += `<tr>
+                <td>${s.item}</td>
+                <td>${s.price} ብር</td>
+                <td>${s.type === 'cash' ? 'ጥሬ ገንዘብ' : '<b>ዱቤ</b>'}</td>
+                <td>${s.customer}</td>
+            </tr>`;
+        });
+
+        document.getElementById('total-sales').innerText = cashTotal + ' ብር';
+        document.getElementById('total-credit').innerText = creditTotal + ' ብር';
+    }
+
+    function addGovRecord() {
+        const model = document.getElementById('model-type').value;
+        const office = document.getElementById('office-name').value;
+        const item = document.getElementById('gov-item').value;
+        const qty = document.getElementById('gov-qty').value;
+        const person = document.getElementById('person-name').value;
+
+        if (!office || !item || !qty) return alert('እባክዎ ሁሉንም ቦታዎች ይሙሉ!');
+
+        govRecords.unshift({ model, office, item, qty, person });
+        localStorage.setItem('ethio_gov', JSON.stringify(govRecords));
+        renderGov();
+        document.getElementById('gov-item').value = '';
+        document.getElementById('gov-qty').value = '';
+    }
+
+    function renderGov() {
+        const tbody = document.getElementById('gov-table');
+        tbody.innerHTML = '';
+        govRecords.forEach(g => {
+            tbody.innerHTML += `<tr>
+                <td><b>${g.model}</b></td>
+                <td>${g.office}</td>
+                <td>${g.item}</td>
+                <td>${g.qty}</td>
+                <td>${g.person}</td>
+            </tr>`;
+        });
+    }
+
+    renderSales();
+    renderGov();
+</script>
+
+</body>
+</html>
