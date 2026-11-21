@@ -1,1 +1,16 @@
+{
+  "name": "ኢትዮ-ስማርት ስቶር (Ethio-Smart Store)",
+  "short_name": "EthioStore",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006633",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
 
