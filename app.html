@@ -73,3 +73,43 @@ th, td { border: 1px solid #ddd; padding: 7px; text-align: left; }
 </div>
 </div>
 <div id="modal"><div class="paper"><h3 id="rt" style="text-align:center;margin:0;border-bottom:1px dashed #000;"></h3><p id="rd" style="text-align:center;font-size:12px;"></p><div id="rb" style="font-size:13px;line-height:1.6;"></div><p style="text-align:center;border-top:1px dashed #000;margin-top:12px;font-size:12px;">ፊርማ፡ ___________</p><div class="no-p" style="display:flex;gap:8px;margin-top:10px;"><button class="btn" style="background:#0275d8;" onclick="window.print()">አትም</button><button class="btn" style="background:#dc3545;" onclick="document.getElementById('modal').style.display='none'">ዝጋ</button></div></div></div>
+<script>
+let sb=JSON.parse(localStorage.getItem('es_b')||'[]'), sg=JSON.parse(localStorage.getItem('es_g')||'[]');
+document.getElementById('shop').value=localStorage.getItem('es_s')||'';
+function go(x){
+document.getElementById('tb1').className=x=='b'?'tbtn act':'tbtn';
+document.getElementById('tb2').className=x=='g'?'tbtn act':'tbtn';
+document.getElementById('sec-b').className=x=='b'?'':'hide';
+document.getElementById('sec-g').className=x=='g'?'':'hide';
+}
+function addB(){
+let sh=document.getElementById('shop').value||'ኢትዮ-ስማርት ሱቅ'; localStorage.setItem('es_s',sh);
+let it=document.getElementById('item').value, pr=parseFloat(document.getElementById('price').value), pt=document.getElementById('ptype').value, cu=document.getElementById('cust').value||'ደንበኛ';
+if(!it||!pr)return alert('እቃ እና ዋጋ ያስገቡ');
+sb.unshift({id:Date.now(),sh,it,pr,pt,cu,dt:new Date().toLocaleDateString()});
+localStorage.setItem('es_b',JSON.stringify(sb)); drawB();
+document.getElementById('item').value=''; document.getElementById('price').value='';
+}
+function pay(id){ sb=sb.map(x=>x.id==id?{...x,pt:'cash'}:x); localStorage.setItem('es_b',JSON.stringify(sb)); drawB(); }
+function prB(id){ let s=sb.find(x=>x.id==id); document.getElementById('rt').innerText=s.sh; document.getElementById('rd').innerText='ቀን: '+s.dt; document.getElementById('rb').innerHTML='ደንበኛ: '+s.cu+'<br>እቃ: '+s.it+'<br>ዋጋ: '+s.pr+' ብር<br>ሁኔታ: '+(s.pt=='cash'?'ተከፍሏል':'ዱቤ'); document.getElementById('modal').style.display='flex'; }
+function drawB(){
+let h='',c=0,cr=0;
+sb.forEach(s=>{ if(s.pt=='cash')c+=s.pr; else cr+=s.pr; h+=`<tr><td>${s.it}</td><td>${s.pr}</td><td>${s.pt=='cash'?'ጥሬ':'<b>ዱቤ</b>'}<br><small>${s.cu}</small>${s.pt=='credit'?`<br><button class="g-sm no-p" onclick="pay(${s.id})">ተከፍሏል</button>`:''}</td><td class="no-p"><button class="b-sm" onclick="prB(${s.id})">አትም</button></td></tr>`; });
+document.getElementById('list-b').innerHTML=h; document.getElementById('s-cash').innerText=c+' ብር'; document.getElementById('s-cred').innerText=cr+' ብር';
+}
+function addG(){
+let dt=document.getElementById('dtype').value, of=document.getElementById('off').value, dn=document.getElementById('dno').value||'-', gd=document.getElementById('gdesc').value, gq=document.getElementById('gqty').value, gp=document.getElementById('gper').value;
+if(!of||!gd||!gq)return alert('ሁሉንም ይሙሉ');
+sg.unshift({id:Date.now(),dt,of,dn,gd,gq,gp,d:new Date().toLocaleDateString()});
+localStorage.setItem('es_g',JSON.stringify(sg)); drawG();
+document.getElementById('gdesc').value=''; document.getElementById('gqty').value='';
+}
+function prG(id){ let g=sg.find(x=>x.id==id); document.getElementById('rt').innerText=g.of; document.getElementById('rd').innerText=g.dt+' | ቁ: '+g.dn; document.getElementById('rb').innerHTML='ዝርዝር: '+g.gd+'<br>መጠን: '+g.gq+'<br>ባለሙያ: '+g.gp+'<br>ቀን: '+g.d; document.getElementById('modal').style.display='flex'; }
+function drawG(){
+let h=''; sg.forEach(g=>{ h+=`<tr><td><b>${g.dt}</b><br><small>${g.dn}</small></td><td>${g.of}</td><td>${g.gd}</td><td>${g.gq}</td><td class="no-p"><button class="b-sm" onclick="prG(${g.id})">አትም</button></td></tr>`; });
+document.getElementById('list-g').innerHTML=h;
+}
+drawB(); drawG();
+</script>
+</body>
+</html>
