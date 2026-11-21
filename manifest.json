@@ -1,16 +1,23 @@
 {
-  "name": "ኢትዮ-ስማርት ስቶር (Ethio-Smart Store)",
+  "name": "Ethio-Smart Store",
   "short_name": "EthioStore",
-  "start_url": "index.html",
+  "description": "ያለ ኢንተርኔት የሚሰራ የንግድ እና የመንግስት መሂ/ሞዴል ሶፍትዌር",
+  "start_url": "/ethio-smart-store/index.html",
+  "scope": "/ethio-smart-store/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#006633",
   "icons": [
     {
-      "src": "https://flaticon.com",
+      "src": "https://githubusercontent.com",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://githubassets.com",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-
