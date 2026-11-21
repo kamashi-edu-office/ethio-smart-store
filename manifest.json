@@ -1,20 +1,17 @@
 {
-  "id": "/ethio-smart-store/",
-  "name": "Ethio-Smart Store",
-  "short_name": "EthioStore",
-  "description": "ያለ ኢንተርኔት የሚሰራ የንግድ እና የመንግስት መሂ/ሞዴል ሶፍትዌር",
-  "start_url": "/ethio-smart-store/index.html",
+  "name": "Ethio Smart Store",
+  "short_name": "Smart Store",
+  "start_url": "/ethio-smart-store/",
   "scope": "/ethio-smart-store/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "#006633",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "https://github.io",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
