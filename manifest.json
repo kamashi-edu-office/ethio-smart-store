@@ -1,4 +1,5 @@
 {
+  "id": "/ethio-smart-store/",
   "name": "Ethio-Smart Store",
   "short_name": "EthioStore",
   "description": "ያለ ኢንተርኔት የሚሰራ የንግድ እና የመንግስት መሂ/ሞዴል ሶፍትዌር",
@@ -10,14 +11,10 @@
   "theme_color": "#006633",
   "icons": [
     {
-      "src": "https://githubusercontent.com",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "https://githubassets.com",
+      "src": "https://github.io",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
