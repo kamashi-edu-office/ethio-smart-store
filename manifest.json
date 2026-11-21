@@ -1,17 +1,17 @@
 {
   "name": "Ethio Smart Store",
   "short_name": "Smart Store",
-  "start_url": "/ethio-smart-store/",
-  "scope": "/ethio-smart-store/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#006633",
   "icons": [
     {
-     "src":"https://kamashi-edu-office.github.io/ethio-smart-store512.png"
+      "src": "ethio-smart-store512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
