@@ -55,7 +55,7 @@
       margin-bottom: 12px;
     }
     .btn-install {
-      display: none;
+      display: block;
       width: 100%;
       background: #f0ad4e;
       color: #000;
@@ -96,14 +96,14 @@
     <div class="card">
       <a href="./app.html" class="btn-open">ወደ ስራ መተግበሪያ ግባ (Open App)</a>
       
-      <!-- ራሱ የሚመጣ የመጫኛ ቁልፍ -->
-      <button id="installBtn" class="btn-install">📲 አፑን ስልክዎ ላይ ይጫኑ (Install App)</button>
+      <!-- ሁልጊዜ የሚታይ የመጫኛ ቁልፍ -->
+      <button type="button" id="installBtn" class="btn-install">📲 አፑን ስልክዎ ላይ ይጫኑ (Install App)</button>
 
-      <!-- ቁልፉ ካልመጣ የሚታይ መመሪያ -->
+      <!-- መመሪያ -->
       <div id="manualGuide" class="guide">
         <b>📲 አፑን በስልክዎ ላይ ለመጫን፦</b><br>
-        1. ከላይ በቀኝ በኩል ያለውን <b>ሶስት ነጥብ (⋮)</b> ይንኩ።<br>
-        2. <b>"Install app"</b> ወይም <b>"Add to Home screen"</b> የሚለውን ይምረጡ።<br>
+        1. ከላይ የሚገኘውን <b>"አፑን ስልክዎ ላይ ይጫኑ"</b> የሚለውን ቢጫ ቁልፍ ይጫኑ።<br>
+        2. ቀጥታ ካልጫነ ከላይ በቀኝ በኩል ያለውን <b>ሶስት ነጥብ (⋮)</b> ነክተው <b>"Install app"</b> ወይም <b>"Add to Home screen"</b> ይምረጡ።<br>
         3. ያለ ኢንተርኔት (Offline) በማንኛውም ሰዓት መጠቀም ይችላሉ!
       </div>
     </div>
@@ -118,7 +118,6 @@
   </div>
 
   <script>
-    // Service Worker መመዝገብ
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -127,7 +126,6 @@
       });
     }
 
-    // የInstall App ቁልፍን መቆጣጠር
     let deferredPrompt;
     const installBtn = document.getElementById('installBtn');
     const manualGuide = document.getElementById('manualGuide');
@@ -135,7 +133,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'block';
     });
 
     installBtn.addEventListener('click', async () => {
@@ -147,6 +144,8 @@
           manualGuide.style.display = 'none';
         }
         deferredPrompt = null;
+      } else {
+        alert("አፑን ለመጫን ከላይ በቀኝ በኩል ያለውን ሶስት ነጥብ (⋮) ነክተው 'Install app' ወይም 'Add to Home screen' የሚለውን ይምረጡ።");
       }
     });
 
