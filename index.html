@@ -1,69 +1,160 @@
 <!DOCTYPE html>
 <html lang="am">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ኢትዮ-ስማርት ስቶር | የንግድ እና የመንግስት ፋይናንስ/ንብረት መቆጣጠሪያ</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#006633">
-    <style>
-        body { font-family: sans-serif; margin: 0; background: #f4f7f6; color: #333; line-height: 1.6; }
-        header { background: linear-gradient(135deg, #006633, #004d26); color: white; padding: 35px 20px; text-align: center; }
-        .container { max-width: 850px; margin: 20px auto; padding: 0 15px; }
-        .card { background: white; border-radius: 10px; padding: 22px; margin-bottom: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-        h2 { color: #006633; margin-top: 0; }
-        .btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-        .btn { flex: 1; min-width: 200px; text-align: center; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; border: none; cursor: pointer; }
-        .btn-buy { background: #006633; color: white; }
-        .btn-demo { background: #f0ad4e; color: #222; }
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; justify-content: center; align-items: center; z-index: 999; }
-        .pay-box { background: white; width: 320px; padding: 22px; border-radius: 10px; text-align: center; }
-        .acc-card { background: #e6f4ea; padding: 12px; border-radius: 6px; margin: 10px 0; text-align: left; font-size: 14px; border-left: 4px solid #006633; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ኢትዮ-ስማርት ስቶር - Ethio Smart Store</title>
+  <meta name="theme-color" content="#006633">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./play_store_512.png">
+  <link rel="apple-touch-icon" href="./play_store_512.png">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+      color: #333;
+      text-align: center;
+    }
+    .header {
+      background: #006633;
+      color: #fff;
+      padding: 30px 15px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 20px;
+      background: #fff;
+      padding: 5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .container {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    .btn-open {
+      display: block;
+      background: #006633;
+      color: #fff;
+      text-decoration: none;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .btn-install {
+      display: none;
+      width: 100%;
+      background: #f0ad4e;
+      color: #000;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .guide {
+      background: #e6f4ea;
+      border: 1px solid #b7dfbf;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: left;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+    .features {
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>ኢትዮ-ስማርት ስቶር (Ethio-Smart Store)</h1>
-    <p>ያለ ኢንተርኔት (Offline) በስልክ እና በኮምፒውተር የሚሰራ ዘመናዊ የንግድ እና የመንግስት መሂ/ሞዴል ሶፍትዌር</p>
-</header>
+  <div class="header">
+    <img src="./play_store_512.png" alt="Logo" class="logo">
+    <h1 style="margin: 10px 0 5px;">ኢትዮ-ስማርት ስቶር</h1>
+    <p style="margin: 0; font-size: 14px; opacity: 0.9;">የንግድ (POS/ዱቤ) እና የመንግስት መሂ/ሞዴል ማዘጋጃ</p>
+  </div>
 
-<div class="container">
+  <div class="container">
     <div class="card">
-        <h2>ይህ ሶፍትዌር ምን ይሰራል?</h2>
-        <ul>
-            <li><strong>ያለ ኢንተርኔት (Offline) ይሰራል፦</strong> ኢንተርኔት ቢጠፋም ስራዎ አይቋረጥም።</li>
-            <li><strong>ለንግድ ድርጅቶች (POS/ዱቤ)፦</strong> ሽያጭ፣ ዱቤ መቆጣጠሪያ እና የደንበኛ ደረሰኝ ማተሚያ።</li>
-            <li><strong>ለመንግስት መስሪያ ቤቶች፦</strong> ከመሂ 1 እስከ 12 እና ሞዴል 19 እስከ 22 ሙሉ ሰነዶችን አዘጋጅቶ ያትማል።</li>
-        </ul>
-        <div class="btn-group">
-            <button class="btn btn-buy" onclick="document.getElementById('pay-modal').style.display='flex'">በባንክ / በቴሌግራም ይግዙ</button>
-            <a href="app.html" class="btn btn-demo">ነፃ ሙከራ (Demo) ይሞክሩ</a>
-        </div>
-    </div>
-</div>
+      <a href="./app.html" class="btn-open">ወደ ስራ መተግበሪያ ግባ (Open App)</a>
+      
+      <!-- ራሱ የሚመጣ የመጫኛ ቁልፍ -->
+      <button id="installBtn" class="btn-install">📲 አፑን ስልክዎ ላይ ይጫኑ (Install App)</button>
 
-<div id="pay-modal">
-    <div class="pay-box">
-        <h3 style="color:#006633; margin-top:0;">የሶፍትዌር መግዣ ክፍያ</h3>
-        <p style="font-size:13px;">ሙሉውን ሶፍትዌር ለዘለቄታው ለመጠቀም ከታች ባለው አካውንት ክፍያ ፈጽመው ደረሰኙን በቴሌግራም ይላኩልን፦</p>
-        
-        <div class="acc-card">
-            <strong>🏦 በኢትዮጵያ ንግድ ባንክ (CBE):</strong><br>
-            አካውንት፡ <b>1000503454298</b><br>
-            ስም፡ <b>ዮሐንስ ሞሴ (Yohannes Mosse)</b>
-        </div>
-        
-        <a href="tg://resolve?domain=EthioSmartStoreET" class="btn btn-buy" style="display:block; margin-top:12px; font-size:14px;">ደረሰኝ በቴሌግራም ይላኩ (@EthioSmartStoreET)</a>
-        <button onclick="document.getElementById('pay-modal').style.display='none'" style="margin-top:10px; background:none; border:none; color:#777; cursor:pointer;">ዝጋ (Close)</button>
+      <!-- ቁልፉ ካልመጣ የሚታይ መመሪያ -->
+      <div id="manualGuide" class="guide">
+        <b>📲 አፑን በስልክዎ ላይ ለመጫን፦</b><br>
+        1. ከላይ በቀኝ በኩል ያለውን <b>ሶስት ነጥብ (⋮)</b> ይንኩ።<br>
+        2. <b>"Install app"</b> ወይም <b>"Add to Home screen"</b> የሚለውን ይምረጡ።<br>
+        3. ያለ ኢንተርኔት (Offline) በማንኛውም ሰዓት መጠቀም ይችላሉ!
+      </div>
     </div>
-</div>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-  }
-</script>
+    <div class="card features">
+      <h3 style="margin-top: 0; color: #006633;">የመተግበሪያው ዋና ጥቅሞች፦</h3>
+      ✅ የጥሬ ሽያጭ እና የዱቤ (Credit) መመዝገቢያ<br>
+      ✅ የመንግስት መሂ (1-12) እና ሞዴል (19-22) ሰነዶች<br>
+      ✅ ደረሰኞችን በቀጥታ ማተም (Print / PDF)<br>
+      ✅ ያለ ኢንተርኔት (Offline) ሙሉ በሙሉ ይሰራል
+    </div>
+  </div>
+
+  <script>
+    // Service Worker መመዝገብ
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered'))
+          .catch(err => console.log('SW error', err));
+      });
+    }
+
+    // የInstall App ቁልፍን መቆጣጠር
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    const manualGuide = document.getElementById('manualGuide');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBtn.style.display = 'none';
+          manualGuide.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+      manualGuide.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
