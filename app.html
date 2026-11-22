@@ -6,110 +6,219 @@
 <title>ኢትዮ-ስማርት ስቶር</title>
 <style>
 body { font-family: sans-serif; margin: 0; background: #f0f2f5; }
-.nav { background: #006633; color: #fff; padding: 14px; display: flex; justify-content: space-between; }
+.nav { background: #006633; color: #fff; padding: 14px; display: flex; justify-content: space-between; align-items: center; }
+.badge { background: #f0ad4e; color: #000; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
 .tabs { display: flex; background: #004d26; }
-.tbtn { flex: 1; padding: 12px; border: 0; background: none; color: #ccc; font-weight: bold; }
+.tbtn { flex: 1; padding: 12px; border: 0; background: none; color: #ccc; font-weight: bold; cursor: pointer; }
 .tbtn.act { color: #fff; border-bottom: 3px solid #f0ad4e; background: rgba(255,255,255,0.1); }
 .box { max-width: 800px; margin: 12px auto; padding: 0 12px; }
 .card { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.hide { display: none; }
+.hide { display: none !important; }
 input, select { width: 100%; padding: 10px; margin: 5px 0 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-.btn { background: #006633; color: #fff; border: 0; padding: 12px; border-radius: 5px; font-weight: bold; width: 100%; }
-.b-sm { background: #0275d8; color: #fff; border: 0; padding: 5px 8px; border-radius: 4px; font-size: 12px; }
-.g-sm { background: #28a745; color: #fff; border: 0; padding: 5px 8px; border-radius: 4px; font-size: 12px; margin-top: 4px; }
+.btn { background: #006633; color: #fff; border: 0; padding: 12px; border-radius: 5px; font-weight: bold; width: 100%; cursor: pointer; }
+.b-sm { background: #0275d8; color: #fff; border: 0; padding: 5px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+.g-sm { background: #28a745; color: #fff; border: 0; padding: 5px 8px; border-radius: 4px; font-size: 12px; margin-top: 4px; cursor: pointer; }
 table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
 th, td { border: 1px solid #ddd; padding: 7px; text-align: left; }
 .sum { display: flex; gap: 10px; margin-bottom: 12px; }
 .st { flex: 1; background: #e6f4ea; padding: 10px; border-radius: 6px; text-align: center; }
-#modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; }
-.paper { background: #fff; width: 300px; padding: 18px; border-radius: 5px; }
+#modal, #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; justify-content: center; align-items: center; z-index: 999; }
+.paper { background: #fff; width: 310px; padding: 18px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 @media print { body * { visibility: hidden; } #modal, #modal * { visibility: visible; } #modal { position: absolute; left: 0; top: 0; background: none; } .no-p { display: none !important; } }
 </style>
 </head>
 <body>
-<div class="nav no-p"><b>ኢትዮ-ስማርት ስቶር</b><a href="index.html" style="color:#f0ad4e;text-decoration:none;">መግቢያ</a></div>
+<div class="nav no-p">
+  <div><b>ኢትዮ-ስማርት ስቶር</b> <span id="trial-badge" class="badge">5 ነጻ ቀርቷል</span></div>
+  <a href="index.html" style="color:#f0ad4e;text-decoration:none;font-weight:bold;">መግቢያ</a>
+</div>
+
 <div class="tabs no-p">
-<button type="button" class="tbtn act" id="tb1" onclick="go('b')">የንግድ ስራ (POS/ዱቤ)</button>
-<button type="button" class="tbtn" id="tb2" onclick="go('g')">የመንግስት መሂ እና ሞዴል</button>
+  <button type="button" class="tbtn act" id="tb1" onclick="go('b')">የንግድ ስራ (POS/ዱቤ)</button>
+  <button type="button" class="tbtn" id="tb2" onclick="go('g')">የመንግስት መሂ እና ሞዴል</button>
 </div>
+
 <div class="box">
-<div id="sec-b">
-<div class="sum no-p">
-<div class="st"><b id="s-cash">0 ብር</b><br><small>ጥሬ ሽያጭ</small></div>
-<div class="st" style="background:#fff3cd;"><b id="s-cred" style="color:#856404;">0 ብር</b><br><small>ያልተከፈለ ዱቤ</small></div>
+  <!-- የንግድ ስራ ክፍል -->
+  <div id="sec-b">
+    <div class="sum no-p">
+      <div class="st"><b id="s-cash">0 ብር</b><br><small>ጥሬ ሽያጭ</small></div>
+      <div class="st" style="background:#fff3cd;"><b id="s-cred" style="color:#856404;">0 ብር</b><br><small>ያልተከፈለ ዱቤ</small></div>
+    </div>
+    <div class="card no-p">
+      <h4>አዲስ ሽያጭ / ዱቤ</h4>
+      <input id="shop" placeholder="የሱቅዎ ስም">
+      <input id="item" placeholder="የእቃው ስም እና ዝርዝር">
+      <input id="price" type="number" placeholder="ጠቅላላ ዋጋ (በብር)">
+      <select id="ptype"><option value="cash">በጥሬ ገንዘብ</option><option value="credit">በዱቤ (Credit)</option></select>
+      <input id="cust" placeholder="የደንበኛ ስም">
+      <button type="button" class="btn" onclick="addB()">መዝግብ (Save)</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>እቃ</th><th>ዋጋ</th><th>ሁኔታ</th><th class="no-p">ደረሰኝ</th></tr></thead>
+        <tbody id="list-b"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- የመንግስት መሂ እና ሞዴል ክፍል -->
+  <div id="sec-g" class="hide">
+    <div class="card no-p">
+      <h4>የመንግስት መሂ (1-12) እና ሞዴል (19-22)</h4>
+      <select id="dtype">
+        <option value="መሂ 1 (ገንዘብ መቀበያ)">መሂ 1 - የገንዘብ መቀበያ ደረሰኝ</option>
+        <option value="መሂ 6 (ገንዘብ መክፈያ)">መሂ 6 - የገንዘብ መክፈያ ሰነድ</option>
+        <option value="መሂ 7 (የውሎ አበል)">መሂ 7 - የውሎ አበል መጠየቂያ/መፍቀጃ</option>
+        <option value="መሂ 12 (ክፍያ ማወራረጃ)">መሂ 12 - የቅድሚያ ክፍያ ማወራረጃ</option>
+        <option value="ሞዴል 19 (ንብረት ገቢ)">ሞዴል 19 - የንብረት ገቢ ደረሰኝ</option>
+        <option value="ሞዴል 20 (ንብረት መጠየቂያ)">ሞዴል 20 - የንብረት መጠየቂያ</option>
+        <option value="ሞዴል 21 (ንብረት መፍቀጃ)">ሞዴል 21 - የንብረት ወጪ መፍቀጃ</option>
+        <option value="ሞዴል 22 (ንብረት ወጪ)">ሞዴል 22 - የንብረት ወጪ ደረሰኝ</option>
+      </select>
+      <input id="off" placeholder="የመስሪያ ቤቱ ስም">
+      <input id="dno" placeholder="የደረሰኝ / ሞዴል ቁጥር">
+      <input id="gdesc" placeholder="ምክንያት ወይም የንብረት አይነት">
+      <input id="gqty" placeholder="የገንዘብ መጠን ወይም የንብረት ብዛት">
+      <input id="gper" placeholder="ባለሙያ / ተረካቢ ስም">
+      <button type="button" class="btn" onclick="addG()">ሰነዱን አዘጋጅ</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>ሰነድ</th><th>መስሪያ ቤት</th><th>ዝርዝር</th><th>መጠን</th><th class="no-p">አትም</th></tr></thead>
+        <tbody id="list-g"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<div class="card no-p">
-<h4>አዲስ ሽያጭ / ዱቤ</h4>
-<input id="shop" placeholder="የሱቅዎ ስም">
-<input id="item" placeholder="የእቃው ስም እና ዝርዝር">
-<input id="price" type="number" placeholder="ጠቅላላ ዋጋ (በብር)">
-<select id="ptype"><option value="cash">በጥሬ ገንዘብ</option><option value="credit">በዱቤ (Credit)</option></select>
-<input id="cust" placeholder="የደንበኛ ስም">
-<button type="button" class="btn" onclick="addB()">መዝግብ (Save)</button>
+
+<!-- የደረሰኝ ማተሚያ ሳጥን -->
+<div id="modal">
+  <div class="paper">
+    <h3 id="rt" style="text-align:center;margin:0;border-bottom:1px dashed #000;padding-bottom:5px;"></h3>
+    <p id="rd" style="text-align:center;font-size:12px;margin:5px 0;"></p>
+    <div id="rb" style="font-size:13px;line-height:1.6;"></div>
+    <p style="text-align:center;border-top:1px dashed #000;margin-top:12px;padding-top:5px;font-size:12px;">ፊርማ፡ ___________</p>
+    <div class="no-p" style="display:flex;gap:8px;margin-top:10px;">
+      <button type="button" class="btn" style="background:#0275d8;" onclick="window.print()">አትም</button>
+      <button type="button" class="btn" style="background:#dc3545;" onclick="document.getElementById('modal').style.display='none'">ዝጋ</button>
+    </div>
+  </div>
 </div>
-<div class="card"><table><thead><tr><th>እቃ</th><th>ዋጋ</th><th>ሁኔታ</th><th class="no-p">ደረሰኝ</th></tr></thead><tbody id="list-b"></tbody></table></div>
+
+<!-- የክፍያ እና የሚስጥር ኮድ መጠየቂያ ሳጥን -->
+<div id="pay-modal">
+  <div class="paper" style="text-align:center;">
+    <h3 style="color:#d9534f;margin-top:0;">🔒 የነጻ ሙከራዎ (5 ደረሰኝ) አልቋል!</h3>
+    <p style="font-size:13px;line-height:1.5;text-align:left;background:#fff3cd;padding:10px;border-radius:6px;">
+      መተግበሪያውን ያለገደብ ለመጠቀም <b>200 ብር</b> በቴሌብር ወይም በCBE Birr ከፍለው የማስከፈቻ ሚስጥር ኮድ ይውሰዱ፦<br><br>
+      📲 <b>ቴሌግራም፡</b> @EthioSmartStoreET<br>
+      <i>(የክፍያውን ስክሪንሾት በቴሌግራም ሲልኩ ሚስጥር ኮዱ ወዲያውኑ ይላክልዎታል)</i>
+    </p>
+    <input id="act-code" placeholder="የተሰጥዎትን ሚስጥር ኮድ እዚህ ያስገቡ" style="text-align:center;font-weight:bold;text-transform:uppercase;">
+    <button type="button" class="btn" onclick="unlockApp()">አፑን ክፈት (Activate)</button>
+    <button type="button" class="btn" style="background:#6c757d;margin-top:8px;" onclick="document.getElementById('pay-modal').style.display='none'">ተመለስ</button>
+  </div>
 </div>
-<div id="sec-g" class="hide">
-<div class="card no-p">
-<h4>የመንግስት መሂ (1-12) እና ሞዴል (19-22)</h4>
-<select id="dtype">
-<option value="መሂ 1 (ገንዘብ መቀበያ)">መሂ 1 - የገንዘብ መቀበያ ደረሰኝ</option>
-<option value="መሂ 6 (ገንዘብ መክፈያ)">መሂ 6 - የገንዘብ መክፈያ ሰነድ</option>
-<option value="መሂ 7 (የውሎ አበል)">መሂ 7 - የውሎ አበል መጠየቂያ/መፍቀጃ</option>
-<option value="መሂ 12 (ክፍያ ማወራረጃ)">መሂ 12 - የቅድሚያ ክፍያ ማወራረጃ</option>
-<option value="ሞዴል 19 (ንብረት ገቢ)">ሞዴል 19 - የንብረት ገቢ ደረሰኝ</option>
-<option value="ሞዴል 20 (ንብረት መጠየቂያ)">ሞዴል 20 - የንብረት መጠየቂያ</option>
-<option value="ሞዴል 21 (ንብረት መፍቀጃ)">ሞዴል 21 - የንብረት ወጪ መፍቀጃ</option>
-<option value="ሞዴል 22 (ንብረት ወጪ)">ሞዴል 22 - የንብረት ወጪ ደረሰኝ</option>
-</select>
-<input id="off" placeholder="የመስሪያ ቤቱ ስም">
-<input id="dno" placeholder="የደረሰኝ / ሞዴል ቁጥር">
-<input id="gdesc" placeholder="ምክንያት ወይም የንብረት አይነት">
-<input id="gqty" placeholder="የገንዘብ መጠን ወይም የንብረት ብዛት">
-<input id="gper" placeholder="ባለሙያ / ተረካቢ ስም">
-<button type="button" class="btn" onclick="addG()">ሰነዱን አዘጋጅ</button>
-</div>
-<div class="card"><table><thead><tr><th>ሰነድ</th><th>መስሪያ ቤት</th><th>ዝርዝር</th><th>መጠን</th><th class="no-p">አትም</th></tr></thead><tbody id="list-g"></tbody></table></div>
-</div>
-</div>
-<div id="modal"><div class="paper"><h3 id="rt" style="text-align:center;margin:0;border-bottom:1px dashed #000;"></h3><p id="rd" style="text-align:center;font-size:12px;"></p><div id="rb" style="font-size:13px;line-height:1.6;"></div><p style="text-align:center;border-top:1px dashed #000;margin-top:12px;font-size:12px;">ፊርማ፡ ___________</p><div class="no-p" style="display:flex;gap:8px;margin-top:10px;"><button class="btn" style="background:#0275d8;" onclick="window.print()">አትም</button><button class="btn" style="background:#dc3545;" onclick="document.getElementById('modal').style.display='none'">ዝጋ</button></div></div></div>
+
 <script>
-let sb=JSON.parse(localStorage.getItem('es_b')||'[]'), sg=JSON.parse(localStorage.getItem('es_g')||'[]');
-document.getElementById('shop').value=localStorage.getItem('es_s')||'';
-function go(x){
-document.getElementById('tb1').className=x=='b'?'tbtn act':'tbtn';
-document.getElementById('tb2').className=x=='g'?'tbtn act':'tbtn';
-document.getElementById('sec-b').className=x=='b'?'':'hide';
-document.getElementById('sec-g').className=x=='g'?'':'hide';
+const VALID_CODES = ['ESS2026', 'ETHIO99', 'SMART77'];
+let bData = JSON.parse(localStorage.getItem('ess_b') || '[]');
+let gData = JSON.parse(localStorage.getItem('ess_g') || '[]');
+let usageCount = parseInt(localStorage.getItem('ess_count') || '0');
+let isPro = localStorage.getItem('ess_pro') === 'true';
+
+function updateBadge() {
+  const badge = document.getElementById('trial-badge');
+  if (isPro) {
+    badge.textContent = '✅ PRO (ሙሉ)';
+    badge.style.background = '#28a745';
+    badge.style.color = '#fff';
+  } else {
+    let left = Math.max(0, 5 - usageCount);
+    badge.textContent = left + ' ነጻ ቀርቷል';
+  }
 }
-function addB(){
-let sh=document.getElementById('shop').value||'ኢትዮ-ስማርት ሱቅ'; localStorage.setItem('es_s',sh);
-let it=document.getElementById('item').value, pr=parseFloat(document.getElementById('price').value), pt=document.getElementById('ptype').value, cu=document.getElementById('cust').value||'ደንበኛ';
-if(!it||!pr)return alert('እቃ እና ዋጋ ያስገቡ');
-sb.unshift({id:Date.now(),sh,it,pr,pt,cu,dt:new Date().toLocaleDateString()});
-localStorage.setItem('es_b',JSON.stringify(sb)); drawB();
-document.getElementById('item').value=''; document.getElementById('price').value='';
+
+function checkLimit() {
+  if (isPro) return true;
+  if (usageCount >= 5) {
+    document.getElementById('pay-modal').style.display = 'flex';
+    return false;
+  }
+  return true;
 }
-function pay(id){ sb=sb.map(x=>x.id==id?{...x,pt:'cash'}:x); localStorage.setItem('es_b',JSON.stringify(sb)); drawB(); }
-function prB(id){ let s=sb.find(x=>x.id==id); document.getElementById('rt').innerText=s.sh; document.getElementById('rd').innerText='ቀን: '+s.dt; document.getElementById('rb').innerHTML='ደንበኛ: '+s.cu+'<br>እቃ: '+s.it+'<br>ዋጋ: '+s.pr+' ብር<br>ሁኔታ: '+(s.pt=='cash'?'ተከፍሏል':'ዱቤ'); document.getElementById('modal').style.display='flex'; }
-function drawB(){
-let h='',c=0,cr=0;
-sb.forEach(s=>{ if(s.pt=='cash')c+=s.pr; else cr+=s.pr; h+=`<tr><td>${s.it}</td><td>${s.pr}</td><td>${s.pt=='cash'?'ጥሬ':'<b>ዱቤ</b>'}<br><small>${s.cu}</small>${s.pt=='credit'?`<br><button class="g-sm no-p" onclick="pay(${s.id})">ተከፍሏል</button>`:''}</td><td class="no-p"><button class="b-sm" onclick="prB(${s.id})">አትም</button></td></tr>`; });
-document.getElementById('list-b').innerHTML=h; document.getElementById('s-cash').innerText=c+' ብር'; document.getElementById('s-cred').innerText=cr+' ብር';
+
+function unlockApp() {
+  const code = document.getElementById('act-code').value.trim().toUpperCase();
+  if (VALID_CODES.includes(code)) {
+    isPro = true;
+    localStorage.setItem('ess_pro', 'true');
+    document.getElementById('pay-modal').style.display = 'none';
+    updateBadge();
+    alert('🎉 እንኳን ደስ አለዎት! መተግበሪያው ሙሉ በሙሉ ተከፍቷል።');
+  } else {
+    alert('❌ ያስገቡት ሚስጥር ኮድ ትክክል አይደለም! እባክዎ በቴሌግራም @EthioSmartStoreET ትክክለኛውን ኮድ ይጠይቁ።');
+  }
 }
-function addG(){
-let dt=document.getElementById('dtype').value, of=document.getElementById('off').value, dn=document.getElementById('dno').value||'-', gd=document.getElementById('gdesc').value, gq=document.getElementById('gqty').value, gp=document.getElementById('gper').value;
-if(!of||!gd||!gq)return alert('ሁሉንም ይሙሉ');
-sg.unshift({id:Date.now(),dt,of,dn,gd,gq,gp,d:new Date().toLocaleDateString()});
-localStorage.setItem('es_g',JSON.stringify(sg)); drawG();
-document.getElementById('gdesc').value=''; document.getElementById('gqty').value='';
+
+function go(tab) {
+  document.getElementById('sec-b').classList.toggle('hide', tab !== 'b');
+  document.getElementById('sec-g').classList.toggle('hide', tab !== 'g');
+  document.getElementById('tb1').classList.toggle('act', tab === 'b');
+  document.getElementById('tb2').classList.toggle('act', tab === 'g');
 }
-function prG(id){ let g=sg.find(x=>x.id==id); document.getElementById('rt').innerText=g.of; document.getElementById('rd').innerText=g.dt+' | ቁ: '+g.dn; document.getElementById('rb').innerHTML='ዝርዝር: '+g.gd+'<br>መጠን: '+g.gq+'<br>ባለሙያ: '+g.gp+'<br>ቀን: '+g.d; document.getElementById('modal').style.display='flex'; }
-function drawG(){
-let h=''; sg.forEach(g=>{ h+=`<tr><td><b>${g.dt}</b><br><small>${g.dn}</small></td><td>${g.of}</td><td>${g.gd}</td><td>${g.gq}</td><td class="no-p"><button class="b-sm" onclick="prG(${g.id})">አትም</button></td></tr>`; });
-document.getElementById('list-g').innerHTML=h;
+
+function addB() {
+  if (!checkLimit()) return;
+  const shop = document.getElementById('shop').value.trim() || 'ኢትዮ-ስማርት ስቶር';
+  const item = document.getElementById('item').value.trim();
+  const price = parseFloat(document.getElementById('price').value);
+  const ptype = document.getElementById('ptype').value;
+  const cust = document.getElementById('cust').value.trim() || 'ደንበኛ';
+
+  if (!item || isNaN(price) || price <= 0) {
+    alert('እባክዎ የእቃውን ስም እና ትክክለኛ ዋጋ ያስገቡ!');
+    return;
+  }
+
+  const rec = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('am-ET'),
+    shop, item, price, ptype, cust
+  };
+  bData.unshift(rec);
+  localStorage.setItem('ess_b', JSON.stringify(bData));
+  
+  usageCount++;
+  localStorage.setItem('ess_count', usageCount);
+  updateBadge();
+
+  document.getElementById('item').value = '';
+  document.getElementById('price').value = '';
+  document.getElementById('cust').value = '';
+  renderB();
 }
-drawB(); drawG();
-</script>
-</body>
-</html>
+
+function payCredit(id) {
+  const idx = bData.findIndex(x => x.id === id);
+  if (idx > -1) {
+    bData[idx].ptype = 'cash';
+    localStorage.setItem('ess_b', JSON.stringify(bData));
+    renderB();
+  }
+}
+
+function renderB() {
+  const tbody = document.getElementById('list-b');
+  tbody.innerHTML = '';
+  let cashSum = 0, credSum = 0;
+
+  bData.forEach(r => {
+    if (r.ptype === 'cash') cashSum += r.price;
+    else credSum += r.price;
+
+    const statusHtml = r.ptype === 'cash'
+      ? '<span style="color:green;font-weight:bold;">ተከፍሏል</span>'
+      : `<span style="color:#d9534f;font-weight:bold;">ዱቤ (${r.cust})</span><br><button class="g-sm no-p" onclick="payCredit(${r.id})">ተከፈለ</button>`;
+
