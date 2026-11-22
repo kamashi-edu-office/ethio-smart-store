@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ethio-smart-store-v2';
+const CACHE_NAME = 'ethio-smart-store-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -20,6 +20,7 @@ self.addEventListener('activate', (e) => {
       Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
     )
   );
+  return self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
