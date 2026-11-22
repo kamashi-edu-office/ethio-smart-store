@@ -8,10 +8,16 @@
   "theme_color": "#006633",
   "icons": [
     {
-      "src": "ethio-smart-store512.png",
+      "src": "./512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "./512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
