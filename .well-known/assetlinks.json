@@ -1,1 +1,12 @@
-
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.kamashi_edu_office.twa",
+      "sha256_cert_fingerprints": [
+        "F4:E3:69:64:EE:89:13:F2:59:4F:DF:FC:1D:E6:E6:39:0F:7F:8D:35:1F:4E:18:82:D6:D7:17:4A:D4:02:A8:65"
+      ]
+    }
+  }
+]
