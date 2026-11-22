@@ -23,7 +23,7 @@ th, td { border: 1px solid #ddd; padding: 7px; text-align: left; }
 .sum { display: flex; gap: 10px; margin-bottom: 12px; }
 .st { flex: 1; background: #e6f4ea; padding: 10px; border-radius: 6px; text-align: center; }
 #modal, #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; justify-content: center; align-items: center; z-index: 999; }
-.paper { background: #fff; width: 310px; padding: 18px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.paper { background: #fff; width: 315px; padding: 18px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 @media print { body * { visibility: hidden; } #modal, #modal * { visibility: visible; } #modal { position: absolute; left: 0; top: 0; background: none; } .no-p { display: none !important; } }
 </style>
 </head>
@@ -110,11 +110,14 @@ th, td { border: 1px solid #ddd; padding: 7px; text-align: left; }
 <div id="pay-modal">
   <div class="paper" style="text-align:center;">
     <h3 style="color:#d9534f;margin-top:0;">🔒 የነጻ ሙከራዎ (5 ደረሰኝ) አልቋል!</h3>
-    <p style="font-size:13px;line-height:1.5;text-align:left;background:#fff3cd;padding:10px;border-radius:6px;">
-      መተግበሪያውን ያለገደብ ለመጠቀም <b>200 ብር</b> በቴሌብር ወይም በCBE Birr ከፍለው የማስከፈቻ ሚስጥር ኮድ ይውሰዱ፦<br><br>
-      📲 <b>ቴሌግራም፡</b> @EthioSmartStoreET<br>
-      <i>(የክፍያውን ስክሪንሾት በቴሌግራም ሲልኩ ሚስጥር ኮዱ ወዲያውኑ ይላክልዎታል)</i>
-    </p>
+    <div style="font-size:13px;line-height:1.6;text-align:left;background:#fff3cd;padding:10px;border-radius:6px;margin-bottom:10px;">
+      መተግበሪያውን ያለገደብ ለመጠቀም <b>200 ብር</b> ከሚከተሉት በአንዱ ይክፈሉ፦<br><br>
+      📱 <b>ቴሌብር (Telebirr)፦</b> <code>[0921175244]</code><br>
+      🏦 <b>ንግድ ባንክ (CBE)፦</b> <code>[የCBE 1000503454298]</code><br>
+      👤 <b>ስም፦</b> Yohannes Mosse<br><br>
+      📲 <b>ቴሌግራም፦</b> @EthioSmartStoreET<br>
+      <i>(የክፍያውን ደረሰኝ በቴሌግራም ሲልኩ የመክፈቻ ሚስጥር ኮድ ወዲያውኑ ይላክልዎታል)</i>
+    </div>
     <input id="act-code" placeholder="የተሰጥዎትን ሚስጥር ኮድ እዚህ ያስገቡ" style="text-align:center;font-weight:bold;text-transform:uppercase;">
     <button type="button" class="btn" onclick="unlockApp()">አፑን ክፈት (Activate)</button>
     <button type="button" class="btn" style="background:#6c757d;margin-top:8px;" onclick="document.getElementById('pay-modal').style.display='none'">ተመለስ</button>
@@ -219,6 +222,3 @@ function renderB() {
     else credSum += r.price;
 
     const statusHtml = r.ptype === 'cash'
-      ? '<span style="color:green;font-weight:bold;">ተከፍሏል</span>'
-      : `<span style="color:#d9534f;font-weight:bold;">ዱቤ (${r.cust})</span><br><button class="g-sm no-p" onclick="payCredit(${r.id})">ተከፈለ</button>`;
-
