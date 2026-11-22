@@ -1,9 +1,29 @@
+const CACHE_NAME = 'ethio-smart-store-v2';
+const ASSETS = [
+  './',
+  './index.html',
+  './app.html',
+  './manifest.json',
+  './play_store_512.png'
+];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(
-    caches.open('ethio-store-v1').then((cache) => cache.addAll(['./', './index.html', './app.html']))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
+  );
+});
+
 self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+  e.respondWith(
+    fetch(e.request).catch(() => caches.match(e.request))
+  );
 });
