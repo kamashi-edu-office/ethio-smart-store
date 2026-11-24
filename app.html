@@ -106,7 +106,7 @@ th,td{border:1px solid #ddd;padding:6px;text-align:left}
 <script>
 const C=['ESS2026','ETHIO99','SMART77'];
 let bd=JSON.parse(localStorage.getItem('eb')||'[]'),gd=JSON.parse(localStorage.getItem('eg')||'[]'),cnt=parseInt(localStorage.getItem('ec')||'0'),pro=localStorage.getItem('ep')==='1';
-function cp(t){navigator.clipboard.writeText(t);alert('ቁጥሩ ተቀድቷል (Copied): '+t);}
+function cp(t){navigator.clipboard.writeText(t);alert('ተቀድቷል: '+t);}
 function upB(){let b=document.getElementById('bdg');if(pro){b.textContent='PRO';b.style.background='#28a745';b.style.color='#fff';}else{b.textContent=Math.max(0,5-cnt)+' ነጻ';}}
 function chk(){if(pro)return true;if(cnt>=5){document.getElementById('pay').style.display='flex';return false;}return true;}
 function unl(){let c=document.getElementById('ac').value.trim().toUpperCase();if(C.includes(c)){pro=true;localStorage.setItem('ep','1');document.getElementById('pay').style.display='none';upB();alert('አፑ ተከፍቷል!');}else{alert('የተሳሳተ ኮድ ነው! በቴሌግራም @EthioSmartStoreET ይጠይቁ።');}}
